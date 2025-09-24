@@ -1,0 +1,17 @@
+[user]
+    name = Jiang Zhengdong
+    email = xautjzd@gmail.com
+
+[core]
+    editor = nvim
+    fileMode = false
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --oneline --graph --decorate
+
+[color]
+    ui = auto
