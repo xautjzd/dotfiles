@@ -3,69 +3,56 @@ local act = wezterm.action
 local config = {}
 
 if wezterm.config_builder then
-        config = wezterm.config_builder()
+	config = wezterm.config_builder()
 end
 
--- ui
--- config.color_scheme = "Monokai"
-config.color_scheme = "tokyonight_night"
-config.font = wezterm.font("JetBrains Mono")
+config.color_scheme = "Batman"
+-- config.font = wezterm.font("JetBrains Mono")
+config.font = wezterm.font_with_fallback({
+	"JetBrains Mono",
+	"Heiti SC",
+	"Songti SC",
+})
 config.font_size = 16.0
-config.text_background_opacity = 0.3
 
--- basic
 config.tab_bar_at_bottom = true
-config.hide_tab_bar_if_only_one_tab = true
--- lines to retain per tab
-config.scrollback_lines = 1000
 
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 2000 }
+config.check_for_updates = false
+config.show_update_window = false
 
--- key binding
 config.keys = {
-        {
-                key = "|",
-                mods = "CMD",
-                action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-        },
-        {
-                key = "-",
-                mods = "CMD",
-                action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
-        },
-        {
-                key = "n",
-                mods = "CMD",
-                action = act.ToggleFullScreen,
-        },
-        {
-                key = "k",
-                mods = "CMD",
-                action = act.ClearScrollback("ScrollbackAndViewport"),
-        },
-        {
-                key = "l",
-                mods = "CMD",
-                action = act.ShowTabNavigator,
-        },
-        {
-                key = "w",
-                mods = "CMD",
-                action = act.CloseCurrentTab({ confirm = true }),
-        },
-        {
-                key = ",",
-                mods = "LEADER",
-                action = act.PromptInputLine({
-                        description = "Enter new name for current tab",
-                        action = wezterm.action_callback(function(window, pane, line)
-                                if line then
-                                        window:active_tab():set_title(line)
-                                end
-                        end),
-                }),
-        },
-        { key = "p", mods = "CMD", action = act.PaneSelect },
+	{
+		key = "|",
+		mods = "CMD",
+		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "-",
+		mods = "CMD",
+		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "n",
+		mods = "CMD",
+		action = wezterm.action.ToggleFullScreen,
+	},
+	{
+		key = "l",
+		mods = "CMD",
+		action = wezterm.action.ShowTabNavigator,
+	},
+	{
+		key = "r",
+		mods = "CMD",
+		action = act.PromptInputLine({
+			description = "Enter new name for tab",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
 }
 
 return config
