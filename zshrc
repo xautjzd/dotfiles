@@ -4,10 +4,10 @@ if [[ -z "$ZSH_COMPDUMP" ]]; then
   export ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
 fi
 compinit -d "$ZSH_COMPDUMP"
+[[ -f ~/.zsh_completion ]] && source ~/.zsh_completion
 
 # 2. PATH setup: Homebrew, Python
 export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/Cellar/python@3.12/3.12.0/bin:$PATH"
 
 # 3. Java environment (keep only the active version to avoid conflicts)
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home"
@@ -32,15 +32,15 @@ alias python='python3'
 
 # 6. Python environment (prefer pyenv if available)
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-fi
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
 
-# 7. Completion scripts
-[[ -f ~/.zsh_completion ]] && source ~/.zsh_completion
+export PATH="$HOME/.local/bin:$PATH"
 
-# 8. Show git branch in prompt
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# 7. Show git branch in prompt
 autoload -Uz vcs_info
 precmd() { vcs_info }
 setopt prompt_subst
